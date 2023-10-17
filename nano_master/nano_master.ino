@@ -104,11 +104,11 @@ for (int x=0;x<16;x++){
   mot[x]= ' ';
 }
 
-
+/*
 if (digitalRead(6)==HIGH){
   capteur=true;
 }
-   
+   */
 }
 
 void loop()
@@ -145,32 +145,34 @@ if (voltage_bat > 700){
 if (capteur==false){
 while(compteur< data_size){
 while (data[compteur]!=10){
+  Serial.print(data[compteur]);
   
   if (data[compteur]=='/'){
     separator=compteur;
-    Serial.print("separator ");
-    Serial.println(separator);
+//    Serial.print("separator ");
+//    Serial.println(separator);
   }
 
   compteur++;
 }
+Serial.println();
 
 longueur_mot=separator-compteur_start;
 int compteur_mot=0;
 
 for(int x=0;x<int((16-longueur_mot)/2);x++){
-  Serial.print(' ');
+//  Serial.print(' ');
   mot[compteur_mot]=' ';
   compteur_mot++;
 }
 for (int x=compteur_start; x< compteur_start+longueur_mot;x++){
-  Serial.print(char(data[x]));
+//  Serial.print(char(data[x]));
   mot[compteur_mot]=char(data[x]);
   compteur_mot++;
 }
 
 int compteur_temps=0;
-for (int x=compteur-2;x>separator;x--){
+for (int x=compteur;x>separator;x--){
   
 
 
@@ -226,7 +228,7 @@ compteur_temps++;
 
 
 
-Serial.println();
+Serial.println(temps*1000);
 delay(temps*1000);
 for (int x=0;x<16;x++){
   mot[x]= ' ';
@@ -248,125 +250,6 @@ compteur_start=compteur;
 compteur=0;
 compteur_start=0;
 }
-else{
-
-
-while((compteur< data_size)&&(capteur_check==true)){
-while (data[compteur]!=10){
-  
-  if (data[compteur]=='/'){
-    separator=compteur;
-    Serial.print("separator ");
-    Serial.println(separator);
-  }
-
-  compteur++;
-}
-
-longueur_mot=separator-compteur_start;
-int compteur_mot=0;
-
-for(int x=0;x<int((16-longueur_mot)/2);x++){
-  Serial.print(' ');
-  mot[compteur_mot]=' ';
-  compteur_mot++;
-}
-for (int x=compteur_start; x< compteur_start+longueur_mot;x++){
-  Serial.print(char(data[x]));
-  mot[compteur_mot]=char(data[x]);
-  compteur_mot++;
-}
-
-int compteur_temps=0;
-for (int x=compteur-2;x>separator;x--){
-  
-
-
-  int puissance = pow(10,compteur_temps);
-  if (puissance>10){
-    puissance++;
-
-  }
-
-  
-temps += (int((data[x])-48)*puissance);
-compteur_temps++;
-
-}
-
-
-
-    afficheur1.writeDigitAscii(0, mot[0]);
-    afficheur1.writeDigitAscii(1, mot[1]);
-    afficheur1.writeDigitAscii(2, mot[2]);
-    afficheur1.writeDigitAscii(3, mot[3]);
-    afficheur1.writeDisplay();
-
-    afficheur2.writeDigitAscii(0, mot[4]);
-    afficheur2.writeDigitAscii(1, mot[5]);
-    afficheur2.writeDigitAscii(2, mot[6]);
-    afficheur2.writeDigitAscii(3, mot[7]);
-    afficheur2.writeDisplay();
-
-
-    afficheur3.writeDigitAscii(0, mot[8]);
-    afficheur3.writeDigitAscii(1, mot[9]);
-    afficheur3.writeDigitAscii(2, mot[10]);
-    afficheur3.writeDigitAscii(3, mot[11]);
-    afficheur3.writeDisplay();
-
-
-    afficheur4.writeDigitAscii(0, mot[12]);
-    afficheur4.writeDigitAscii(1, mot[13]);
-    afficheur4.writeDigitAscii(2, mot[14]);
-    afficheur4.writeDigitAscii(3, mot[15]);
-    afficheur4.writeDisplay();
-
-
-
-
-
-
-
-
-
-
-
-
-
-Serial.println();
-delay(temps*1000);
-for (int x=0;x<16;x++){
-  mot[x]= ' ';
-}
-afficheur1.clear();
-afficheur2.clear();
-afficheur3.clear();
-afficheur4.clear();
-
-
-temps=0;
-compteur++;
-compteur_start=compteur;
-
-}
-
-
-
-compteur=0;
-compteur_start=0;
-
-
-
-
-
-
-
-  
-}
-
-
-
 
 
 }
